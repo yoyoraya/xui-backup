@@ -221,7 +221,8 @@ def send_file():
     try:
         headers = {'Authorization': API_KEY}
         host_name = socket.gethostname()
-        host_ip = socket.gethostbyname(host_name)
+        host_ip = host_ip = subprocess.getoutput("hostname -I | awk '{print $1}'")
+
 
         data = {
             'host_name': host_name,
