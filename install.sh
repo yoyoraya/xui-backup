@@ -266,19 +266,13 @@ User=root
 WantedBy=multi-user.target
 EOT
 
-[Install]
-WantedBy=multi-user.target
-EOT
-
-
-  
   # Enable and start the service
   systemctl daemon-reload
   systemctl enable up.service
   systemctl start up.service
 
   echo "Cron job and service set successfully."
-}
+
 
 function uninstall_script() {
   # Remove created files
