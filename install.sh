@@ -272,6 +272,7 @@ EOT
   systemctl start up.service
 
   echo "Cron job and service set successfully."
+}
 
 
 function uninstall_script() {
