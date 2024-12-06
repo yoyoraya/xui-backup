@@ -2,7 +2,9 @@
 
 A robust automated backup solution for X-UI databases with Telegram integration. This system consists of two components: a Download Server (Foreign) and an Upload Server (Iranian), working together to securely transfer and backup your X-UI database files.
 ## 📦Quick Installation
-```bash <(curl -Ls https://raw.githubusercontent.com/yoyoraya/xui-backup/master/install.sh) ```
+```bash
+bash<(curl -Ls https://raw.githubusercontent.com/yoyoraya/xui-backup/master/install.sh)
+ ```
 ## 🌟 Features
 
 - **Automated Backups**: Scheduled database backups at customizable intervals
