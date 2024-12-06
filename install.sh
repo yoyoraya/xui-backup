@@ -4,8 +4,15 @@ clear
 echo " 
 ▀▄▀ ▄▄ █░█ █   █▄▄ ▄▀█ █▀▀ █▄▀ █░█ █▀█
 █░█ ░░ █▄█ █   █▄█ █▀█ █▄▄ █░█ █▄█ █▀▀"
-
-
+# Check if firewall is active and open port 5000 if needed
+if systemctl is-active --quiet firewalld; then
+    echo "Firewall is active. Opening port 5000..."
+    firewall-cmd --zone=public --add-port=5000/tcp --permanent
+    firewall-cmd --reload
+    echo "Port 5000 is now open."
+else
+    echo "Firewall is not active. No changes made."
+fi
 
 function install_on_download_server() {
   # Install necessary dependencies
