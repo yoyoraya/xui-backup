@@ -210,6 +210,7 @@ import socket
 import logging
 import subprocess
 import os
+import shutil
 
 # Configuration
 SERVER_URL = 'http://$external_server_ip:5000/upload'
@@ -227,10 +228,10 @@ def send_file():
         host_name = socket.gethostname()
         host_ip = subprocess.getoutput("hostname -I | awk '{print $1}'")
 
-        # Rename database file with server name
-        renamed_file_path = f"/tmp/{SERVER_NAME}.db"
+        # Rename database file with server name in temp
         if os.path.exists(FILE_PATH):
-            os.rename(FILE_PATH, renamed_file_path)
+            temp_file_path = f"/tmp/{SERVER_NAME}.db"
+            shutil.copy(FILE_PATH, temp_file_path)
         else:
             logging.error(f"Database file {FILE_PATH} does not exist.")
             print(f"Error: Database file {FILE_PATH} does not exist.")
@@ -241,12 +242,13 @@ def send_file():
             'host_ip': host_ip
         }
 
-        with open(renamed_file_path, 'rb') as file:
+        with open(temp_file_path, 'rb') as file:
             response = requests.post(SERVER_URL, files={'file': file}, data=data, headers=headers)
 
         if response.status_code == 200:
-            logging.info(f"File {renamed_file_path} sent successfully: {response.json()}")
+            logging.info(f"File {temp_file_path} sent successfully: {response.json()}")
             print("File sent successfully.")
+            os.remove(temp_file_path)  
         else:
             logging.error(f"Failed to send file: {response.status_code}, {response.text}")
             print(f"Failed to send file: {response.status_code}, {response.text}")
