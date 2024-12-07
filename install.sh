@@ -209,11 +209,13 @@ import requests
 import socket
 import logging
 import subprocess
+import os
 
 # Configuration
 SERVER_URL = 'http://$external_server_ip:5000/upload'
 FILE_PATH = '/etc/x-ui/x-ui.db'
 API_KEY = '$API_KEY'
+SERVER_NAME = '<SERVER_NAME>'
 
 # Logging setup
 logging.basicConfig(filename='client.log', level=logging.INFO, format='%(asctime)s %(message)s')
@@ -223,19 +225,27 @@ def send_file():
     try:
         headers = {'Authorization': API_KEY}
         host_name = socket.gethostname()
-        host_ip = host_ip = subprocess.getoutput("hostname -I | awk '{print $1}'")
+        host_ip = subprocess.getoutput("hostname -I | awk '{print $1}'")
 
+        # Rename database file with server name
+        renamed_file_path = f"/tmp/{SERVER_NAME}.db"
+        if os.path.exists(FILE_PATH):
+            os.rename(FILE_PATH, renamed_file_path)
+        else:
+            logging.error(f"Database file {FILE_PATH} does not exist.")
+            print(f"Error: Database file {FILE_PATH} does not exist.")
+            return
 
         data = {
             'host_name': host_name,
             'host_ip': host_ip
         }
 
-        with open(FILE_PATH, 'rb') as file:
+        with open(renamed_file_path, 'rb') as file:
             response = requests.post(SERVER_URL, files={'file': file}, data=data, headers=headers)
 
         if response.status_code == 200:
-            logging.info(f"File {FILE_PATH} sent successfully: {response.json()}")
+            logging.info(f"File {renamed_file_path} sent successfully: {response.json()}")
             print("File sent successfully.")
         else:
             logging.error(f"Failed to send file: {response.status_code}, {response.text}")
