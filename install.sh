@@ -17,7 +17,8 @@ fi
 function install_on_download_server() {
   # Install necessary dependencies
   apt update && apt install -y python3 python3-pip && python3 -m ensurepip
-  python3 -m pip install flask flask_limiter requests
+  pip3 install flask flask-limiter requests --break-system-packages --ignore-installed blinker
+
 
   # Ask for Telegram bot token and chat ID
  echo -e "\n\e[1;34mPlease enter your Telegram bot token:\e[0m"
