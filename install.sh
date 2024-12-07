@@ -145,7 +145,8 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/python3 /root/dl.py
 WorkingDirectory=/root
-Restart=always
+Restart=on-failure
+RestartSec=5
 User=$(whoami)
 
 [Install]
