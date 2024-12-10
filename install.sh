@@ -204,6 +204,9 @@ read -p "-> " external_server_ip
 echo -e "\n\e[1;34mPlease enter the API KEY:\e[0m"
 read -p "-> " API_KEY
 
+echo -e "\n\e[1;34mPlease enter the Server Name:\e[0m"
+read -p "-> " SERVER_NAME
+
   # Create up.py file
   cat <<EOT > /root/up.py
 import requests
@@ -217,7 +220,7 @@ import shutil
 SERVER_URL = 'http://$external_server_ip:5000/upload'
 FILE_PATH = '/etc/x-ui/x-ui.db'
 API_KEY = '$API_KEY'
-SERVER_NAME = '<SERVER_NAME>'
+SERVER_NAME = '$SERVER_NAME'
 
 # Logging setup
 logging.basicConfig(filename='client.log', level=logging.INFO, format='%(asctime)s %(message)s')
